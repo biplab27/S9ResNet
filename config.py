@@ -14,6 +14,7 @@ def load_config():
         'momentum': float(os.getenv('MOMENTUM', 0.9)),
         'weight_decay': float(os.getenv('WEIGHT_DECAY', 1e-4)),
         'num_workers': int(os.getenv('NUM_WORKERS', 8)),
+        'resume_from': os.getenv('RESUME_FROM', None),  # Path to checkpoint to resume from
     }
     
     # Validate required environment variables
