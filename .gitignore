@@ -1,0 +1,15 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Checkpoints and logs
+checkpoints/
+logs/
+
+# Virtual environment
+venv/
+env/ 
