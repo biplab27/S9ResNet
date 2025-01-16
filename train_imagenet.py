@@ -378,7 +378,7 @@ class ImageNetTrainer:
             checkpoint = torch.load(checkpoint_path, map_location=self.device)
             
             # Load model state
-            self.model.load_state_dict(checkpoint['state_dict'])
+            self.model.load_state_dict(checkpoint['model'])
             
             # Load optimizer state
             self.optimizer.load_state_dict(checkpoint['optimizer'])
