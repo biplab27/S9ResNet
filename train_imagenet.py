@@ -375,8 +375,8 @@ class ImageNetTrainer:
         """Load checkpoint and resume training state"""
         try:
             self.logger.info(f"Loading checkpoint from {checkpoint_path}")
-            # Load checkpoint with weights_only=True for security
-            checkpoint = torch.load(checkpoint_path, map_location=self.device, weights_only=True)
+            # Load full checkpoint
+            checkpoint = torch.load(checkpoint_path, map_location=self.device)
             
             # Load model state
             self.model.load_state_dict(checkpoint['model'])
