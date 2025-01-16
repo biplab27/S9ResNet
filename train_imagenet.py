@@ -375,7 +375,8 @@ class ImageNetTrainer:
         """Load checkpoint and resume training state"""
         try:
             self.logger.info(f"Loading checkpoint from {checkpoint_path}")
-            checkpoint = torch.load(checkpoint_path, map_location=self.device)
+            # Load checkpoint with weights_only=True for security
+            checkpoint = torch.load(checkpoint_path, map_location=self.device, weights_only=True)
             
             # Load model state
             self.model.load_state_dict(checkpoint['model'])
@@ -391,9 +392,9 @@ class ImageNetTrainer:
             if 'scaler' in checkpoint:
                 self.scaler.load_state_dict(checkpoint['scaler'])
             
-            # Load other training state variables
-            start_epoch = checkpoint['epoch']
-            self.best_acc1 = checkpoint['best_acc1']
+            # Get epoch and best accuracy
+            start_epoch = checkpoint.get('epoch', 0)
+            self.best_acc1 = checkpoint.get('best_acc1', 0.0)
             
             self.logger.info(f"Loaded checkpoint from epoch {start_epoch} "
                            f"with best accuracy {self.best_acc1:.2f}%")
