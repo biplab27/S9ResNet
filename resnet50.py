@@ -99,7 +99,7 @@ class ResNet50(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
 
-        # ResNet stages
+        # ResNet stages ResNet34 = 3,4,6,3 : ResNet50 = 3,4,6,3 : ResNet101 = 3,4,23,3
         self.layer1 = make_layer(self.inplanes, 64, 3)  # 3 bottleneck blocks
         self.layer2 = make_layer(256, 128, 4, stride=2)  # 4 bottleneck blocks
         self.layer3 = make_layer(512, 256, 6, stride=2)  # 6 bottleneck blocks
@@ -180,7 +180,7 @@ def test_resnet50():
     model = ResNet50()
     
     # Create sample input
-    x = torch.randn(1, 3, 224, 224)
+    x = torch.randn(32, 3, 224, 224)
     
     # Forward pass
     output = model(x)

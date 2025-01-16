@@ -8,7 +8,7 @@ class Logger:
         os.makedirs(log_dir, exist_ok=True)
         
         # Create timestamp for unique log file name
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        timestamp = datetime.now().strftime('%Y%m%d')
         log_file = os.path.join(log_dir, f'training_{timestamp}.log')
         
         # Configure logging

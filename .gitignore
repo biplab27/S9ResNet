@@ -1,5 +1,6 @@
 # Environment variables
 .env
+.DS_Store
 
 # Python
 __pycache__/
@@ -8,7 +9,8 @@ __pycache__/
 
 # Checkpoints and logs
 checkpoints/
-logs/
+logs/*
+!logs/.gitkeep
 
 # Virtual environment
 venv/
