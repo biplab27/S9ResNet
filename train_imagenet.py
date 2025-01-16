@@ -174,9 +174,9 @@ class ImageNetTrainer:
             self.model.train()
             
             end = time.time()
-            pbar = tqdm(enumerate(self.train_loader), total=len(self.train_loader))
+            num_batches = len(self.train_loader)
             
-            for i, (images, target) in pbar:
+            for i, (images, target) in enumerate(self.train_loader):
                 # Move data to target device
                 images = images.to(self.device)
                 target = target.to(self.device)
@@ -204,7 +204,8 @@ class ImageNetTrainer:
                 
                 if i % 100 == 0:  # Log every 100 batches
                     self.logger.info(
-                        f'Epoch: [{epoch}][{i}/{len(self.train_loader)}] '
+                        f'Epoch: [{epoch}][{i}/{num_batches}] '
+                        f'Time: {batch_time.val:.3f} ({batch_time.avg:.3f}) '
                         f'Loss: {losses.avg:.4f} '
                         f'Acc@1: {top1.avg:.2f}% '
                         f'Acc@5: {top5.avg:.2f}%'
@@ -225,9 +226,9 @@ class ImageNetTrainer:
         # Switch to evaluate mode
         self.model.eval()
         
-        pbar = tqdm(enumerate(self.test_loader), total=len(self.test_loader))
+        num_batches = len(self.test_loader)
         
-        for i, (images, target) in pbar:
+        for i, (images, target) in enumerate(self.test_loader):
             images = images.to(self.device)
             target = target.to(self.device)
             
@@ -241,12 +242,13 @@ class ImageNetTrainer:
             top1.update(acc1[0], images.size(0))
             top5.update(acc5[0], images.size(0))
             
-            pbar.set_description(
-                f'Test: '
-                f'Loss: {losses.avg:.4f} '
-                f'Acc@1: {top1.avg:.2f}% '
-                f'Acc@5: {top5.avg:.2f}%'
-            )
+            if i % 100 == 0:  # Log every 100 batches
+                self.logger.info(
+                    f'Test: [{i}/{num_batches}] '
+                    f'Loss: {losses.avg:.4f} '
+                    f'Acc@1: {top1.avg:.2f}% '
+                    f'Acc@5: {top5.avg:.2f}%'
+                )
 
         self.logger.info(f"Test: Loss: {losses.avg:.4f} Acc@1: {top1.avg:.2f}% Acc@5: {top5.avg:.2f}%")
         
