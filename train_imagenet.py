@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import transforms, datasets
-from torch.cuda.amp import GradScaler, autocast
+from torch.amp import GradScaler, autocast
 from resnet50 import ResNet50
 from tqdm import tqdm
 from logger import Logger
@@ -182,7 +182,7 @@ class ImageNetTrainer:
                 target = target.to(self.device)
                 
                 # Mixed precision training
-                with autocast():
+                with autocast(device_type='cuda', dtype=torch.float16):
                     output = self.model(images)
                     loss = self.criterion(output, target)
                 
